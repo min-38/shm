@@ -16,11 +16,13 @@ class StoreControllerTest extends TestCase
     use DatabaseTransactions, WithFaker;
 
     /** @test */
-    public function given(): void
+    public function givenStoreRequest_thenSaveStore(): void
     {
         $response = $this->withHeaders([
             'X-Header' => 'Value',
-        ])->post('/store/save', ["name" => "qqq"]);
+        ])->post('/store/save', ["name" => "qqq", "telephone" => "02-525-5398", "email" => "qqq@qqq.com", "address" => "qqq"]);
+
+        // dd($response);
     
         $response->assertStatus(200);
     }
