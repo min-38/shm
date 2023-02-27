@@ -21,4 +21,5 @@ Route::get('/', function () {
 
 
 // StoreController
+Route::get('/store/list', [StoreController::class, 'getStore']);
 Route::post('/store/save', [StoreController::class, 'SaveStore'])->name('SaveStore');

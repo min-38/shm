@@ -11,8 +11,9 @@ class StoreController extends Controller
 {
     //
 
-    public function EditStoreView() {
-        return view('save1');
+    public function getStore() {
+        $stores = Store::all();
+        return view('pages.store.list', compact('stores'));
     }
 
     public function SaveStore(StoreRequest $request) {
