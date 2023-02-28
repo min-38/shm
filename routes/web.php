@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\StoreController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,3 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+// StoreController
+Route::get('/store/list', [StoreController::class, 'getStore']);
+Route::post('/store/save', [StoreController::class, 'SaveStore'])->name('SaveStore');
