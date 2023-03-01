@@ -1,0 +1,8 @@
+.register_tab.active {
+    color: #FFFFFF;
+    background-color: #000000;
+}
+
+.tab_li:first-child {
+    margin-right: 1em;
+}
