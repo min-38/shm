@@ -1,21 +1,23 @@
 import { forwardRef, useEffect, useRef } from 'react';
+import axios from "axios";
 
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import TextInput from '@/Components/TextInput';
-import { useForm } from '@inertiajs/react';
+import PrimaryButton from '@/Components/PrimaryButton';
+import { Head, Link, useForm } from '@inertiajs/react';
 
 export default forwardRef(function StoreRegisterForm({...props }, ref) {
 
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, processing, errors, reset } = useForm({
         company: '',
         name: '',
-        id: '',
+        user_id: '',
         email: '',
         password: '',
         password_confirmation: '',
         registration: '',
-        phone_number: '',
+        phone: '',
         address: '',
     });
 
@@ -23,9 +25,26 @@ export default forwardRef(function StoreRegisterForm({...props }, ref) {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
     };
 
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
+
+        axios.post(
+            route('registerStore'),
+            data,
+            {headers: { 'Content-Type': 'application/json' }}
+        ).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+        return false;
+    }
+
     return (
         <>
+            <Head title="판매처 회원가입" />
             <div>
+                
                 <InputLabel htmlFor="company" value="판매처명" />
 
                 <TextInput
@@ -33,7 +52,7 @@ export default forwardRef(function StoreRegisterForm({...props }, ref) {
                     name="company"
                     value={data.company}
                     className="mt-1 block w-full"
-                    autoComplete="name"
+                    autoComplete="company"
                     isFocused={true}
                     onChange={handleOnChange}
                     required
@@ -59,19 +78,19 @@ export default forwardRef(function StoreRegisterForm({...props }, ref) {
             </div>
 
             <div className="mt-4">
-                <InputLabel htmlFor="id" value="아이디" />
+                <InputLabel htmlFor="user_id" value="아이디" />
 
                 <TextInput
-                    id="id"
-                    name="id"
-                    value={data.id}
+                    id="user_id"
+                    name="user_id"
+                    value={data.user_id}
                     className="mt-1 block w-full"
-                    autoComplete="username"
+                    autoComplete="user_id"
                     onChange={handleOnChange}
                     required
                 />
 
-                <InputError message={errors.id} className="mt-2" />
+                <InputError message={errors.user_id} className="mt-2" />
             </div>
 
             <div className="mt-4">
@@ -83,7 +102,7 @@ export default forwardRef(function StoreRegisterForm({...props }, ref) {
                     name="password"
                     value={data.password}
                     className="mt-1 block w-full"
-                    autoComplete="new-password"
+                    autoComplete="password"
                     onChange={handleOnChange}
                     required
                 />
@@ -100,7 +119,7 @@ export default forwardRef(function StoreRegisterForm({...props }, ref) {
                     name="password_confirmation"
                     value={data.password_confirmation}
                     className="mt-1 block w-full"
-                    autoComplete="new-password"
+                    autoComplete="password_confirmation"
                     onChange={handleOnChange}
                     required
                 />
@@ -126,20 +145,20 @@ export default forwardRef(function StoreRegisterForm({...props }, ref) {
             </div>
 
             <div className="mt-4">
-                <InputLabel htmlFor="phone_number" value="휴대폰 번호" />
+                <InputLabel htmlFor="phone" value="휴대폰 번호" />
 
                 <TextInput
-                    id="phone_number"
+                    id="phone"
                     type="tel"
-                    name="phone_number"
-                    value={data.phone_number}
+                    name="phone"
+                    value={data.phone}
                     className="mt-1 block w-full"
                     autoComplete="username"
                     onChange={handleOnChange}
                     required
                 />
 
-                <InputError message={errors.phone_number} className="mt-2" />
+                <InputError message={errors.phone} className="mt-2" />
             </div>
 
             <div className="mt-4">
@@ -173,6 +192,21 @@ export default forwardRef(function StoreRegisterForm({...props }, ref) {
                 />
 
                 <InputError message={errors.address} className="mt-2" />
+            </div>
+            <div className="flex items-center justify-end mt-4">
+                <Link
+                    href={route('login')}
+                    className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Already registered?
+                </Link>
+
+                <PrimaryButton
+                    className="ml-4"
+                    onClick={onSubmitHandler}
+                    disabled={processing}>
+                    Register
+                </PrimaryButton>
             </div>
         </>
     );
